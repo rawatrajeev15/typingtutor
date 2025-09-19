@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeMaster - Advanced Typing Practice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="container flex justify-between items-center">
+                <div class="nav-brand">
+                    <h1>⌨️ TypeMaster</h1>
+                </div>
+                <div class="nav-menu flex items-center gap-16">
+                    <button class="nav-btn" data-section="practice">Practice</button>
+                    <button class="nav-btn" data-section="dashboard">Dashboard</button>
+                    <button class="nav-btn" data-section="leaderboard">Leaderboard</button>
+                    <button class="nav-btn" data-section="multiplayer">Races</button>
+                    <div class="user-section">
+                        <button id="loginBtn" class="btn btn--primary">Login</button>
+                        <div id="userProfile" class="user-profile hidden">
+                            <span id="userName"></span>
+                            <button id="logoutBtn" class="btn btn--outline btn--sm">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Landing Section -->
+            <section id="landing" class="section">
+                <div class="container">
+                    <div class="hero">
+                        <h2>Master Your Typing Skills</h2>
+                        <p>Adaptive lessons, real-time feedback, and multiplayer races to improve your typing speed and accuracy.</p>
+                        <div class="hero-actions flex gap-16 justify-center">
+                            <button class="btn btn--primary btn--lg" data-action="start-practice">Start Practice</button>
+                            <button class="btn btn--outline btn--lg" data-action="guest-mode">Guest Mode</button>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">10,000+</span>
+                                <span class="stat-label">Active Users</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">50 WPM</span>
+                                <span class="stat-label">Average Speed</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">95%</span>
+                                <span class="stat-label">Accuracy Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Practice Section -->
+            <section id="practice" class="section hidden">
+                <div class="container">
+                    <div class="practice-header">
+                        <div class="difficulty-selector">
+                            <label class="form-label">Difficulty Level:</label>
+                            <select id="difficultySelect" class="form-control">
+                                <option value="1">Beginner (Home Row)</option>
+                                <option value="2">Intermediate (Extended)</option>
+                                <option value="3">Advanced (Full Alphabet)</option>
+                                <option value="4">Expert (All Characters)</option>
+                            </select>
+                        </div>
+                        <div class="practice-stats flex gap-16">
+                            <div class="stat-display">
+                                <span class="stat-label">WPM</span>
+                                <span id="currentWPM" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-display">
+                                <span class="stat-label">Accuracy</span>
+                                <span id="currentAccuracy" class="stat-value">100%</span>
+                            </div>
+                            <div class="stat-display">
+                                <span class="stat-label">Time</span>
+                                <span id="practiceTime" class="stat-value">0:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="typing-area">
+                        <div id="textDisplay" class="text-display"></div>
+                        <div class="typing-input-container">
+                            <input type="text" id="typingInput" class="typing-input" placeholder="Start typing..." autocomplete="off" spellcheck="false">
+                        </div>
+                        <div class="typing-controls">
+                            <button id="restartBtn" class="btn btn--secondary">Restart</button>
+                            <button id="newTextBtn" class="btn btn--outline">New Text</button>
+                        </div>
+                    </div>
+
+                    <!-- Virtual Keyboard -->
+                    <div class="virtual-keyboard">
+                        <div class="keyboard-row">
+                            <div class="key" data-key="q">Q</div>
+                            <div class="key" data-key="w">W</div>
+                            <div class="key" data-key="e">E</div>
+                            <div class="key" data-key="r">R</div>
+                            <div class="key" data-key="t">T</div>
+                            <div class="key" data-key="y">Y</div>
+                            <div class="key" data-key="u">U</div>
+                            <div class="key" data-key="i">I</div>
+                            <div class="key" data-key="o">O</div>
+                            <div class="key" data-key="p">P</div>
+                        </div>
+                        <div class="keyboard-row">
+                            <div class="key" data-key="a">A</div>
+                            <div class="key" data-key="s">S</div>
+                            <div class="key" data-key="d">D</div>
+                            <div class="key" data-key="f">F</div>
+                            <div class="key" data-key="g">G</div>
+                            <div class="key" data-key="h">H</div>
+                            <div class="key" data-key="j">J</div>
+                            <div class="key" data-key="k">K</div>
+                            <div class="key" data-key="l">L</div>
+                        </div>
+                        <div class="keyboard-row">
+                            <div class="key" data-key="z">Z</div>
+                            <div class="key" data-key="x">X</div>
+                            <div class="key" data-key="c">C</div>
+                            <div class="key" data-key="v">V</div>
+                            <div class="key" data-key="b">B</div>
+                            <div class="key" data-key="n">N</div>
+                            <div class="key" data-key="m">M</div>
+                            <div class="key space-key" data-key=" ">SPACE</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section hidden">
+                <div class="container">
+                    <h2>Your Progress Dashboard</h2>
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Current Stats</h3>
+                                <div class="current-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Best WPM</span>
+                                        <span id="bestWPM" class="stat-number">0</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Best Accuracy</span>
+                                        <span id="bestAccuracy" class="stat-number">0%</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Sessions Completed</span>
+                                        <span id="sessionsCount" class="stat-number">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Achievements</h3>
+                                <div id="achievementsList" class="achievements-list"></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Recent Sessions</h3>
+                                <div id="recentSessions" class="sessions-list"></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Weak Characters</h3>
+                                <div id="weakCharacters" class="weak-chars-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leaderboard Section -->
+            <section id="leaderboard" class="section hidden">
+                <div class="container">
+                    <h2>Global Leaderboard</h2>
+                    <div class="leaderboard-filters">
+                        <button class="filter-btn active" data-filter="weekly">Weekly</button>
+                        <button class="filter-btn" data-filter="monthly">Monthly</button>
+                        <button class="filter-btn" data-filter="alltime">All Time</button>
+                    </div>
+                    <div class="card">
+                        <div class="card__body">
+                            <div id="leaderboardList" class="leaderboard-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Multiplayer Section -->
+            <section id="multiplayer" class="section hidden">
+                <div class="container">
+                    <h2>Multiplayer Racing</h2>
+                    <div class="race-lobby">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Quick Race</h3>
+                                <p>Join a random race with other players</p>
+                                <button id="quickRaceBtn" class="btn btn--primary">Find Race</button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Create Private Race</h3>
+                                <p>Create a private room for friends</p>
+                                <button id="createRaceBtn" class="btn btn--outline">Create Room</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="raceArea" class="race-area hidden">
+                        <div class="race-header">
+                            <h3>Racing Arena</h3>
+                            <div id="raceCountdown" class="race-countdown">Get Ready!</div>
+                        </div>
+                        <div class="race-progress">
+                            <div class="progress-track">
+                                <div class="player-progress" data-player="you">
+                                    <span class="player-name">You</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill"></div>
+                                    </div>
+                                </div>
+                                <div class="player-progress" data-player="opponent">
+                                    <span class="player-name">Opponent</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="race-text-area">
+                            <div id="raceTextDisplay" class="text-display"></div>
+                            <input type="text" id="raceTypingInput" class="typing-input" placeholder="Wait for race to start..." disabled>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Login / Register</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="authForm">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" id="username" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" id="password" class="form-control" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                            <button type="button" id="registerBtn" class="btn btn--outline btn--full-width">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div id="resultsModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Session Results</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="results-stats">
+                        <div class="result-item">
+                            <span class="result-label">Words Per Minute</span>
+                            <span id="resultWPM" class="result-value">0</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Accuracy</span>
+                            <span id="resultAccuracy" class="result-value">0%</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Time</span>
+                            <span id="resultTime" class="result-value">0:00</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Characters Typed</span>
+                            <span id="resultChars" class="result-value">0</span>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button id="practiceAgainBtn" class="btn btn--primary">Practice Again</button>
+                        <button class="btn btn--outline modal-close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
